@@ -1,4 +1,6 @@
 import random
+from problem import Problem
+
 # Genetic Algorithm
 # TODO: Define an initial population to use
 # TODO: Define a problem. The problem has a initial_state, a result function, a actions function, and a value
@@ -88,3 +90,4 @@ def mutate(x, gene_pool, pmut):
 
     new_gene = gene_pool[r]
     return x[:c] + [new_gene] + x[c + 1:]
+
