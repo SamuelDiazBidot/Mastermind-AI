@@ -1,4 +1,5 @@
-from mastermind import Mastermind
+# from mastermind import Mastermind
+from genetic_algorithm.mastermindGA import MastermindGA
 
-game = Mastermind()
-game.run()
+game_GA = MastermindGA()
+game_GA.run()

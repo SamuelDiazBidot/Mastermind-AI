@@ -1,93 +1,61 @@
 import random
-from problem import Problem
 
-# Genetic Algorithm
-# TODO: Define an initial population to use
-# TODO: Define a problem. The problem has a initial_state, a result function, a actions function, and a value
+def check_guess(guess, code):
+    copy_code = list(code)
+    copy_guess = list(guess)
+    blackPegs = 0
+    whitePegs = 0
 
-def genetic_search(problem, ngen=1000, pmut=0.1, n=20):
-    """Call genetic_algorithm on the appropriate parts of a problem.
-    This requires the problem to have states that can mate and mutate,
-    plus a value method that scores states."""
+    for i in range(len(code)):
+        if code[i] == guess[i]:
+            blackPegs = blackPegs + 1
+            copy_code[i] = 42
+            copy_guess[i] = 4242
 
-    # TODO: Use this function to make Problems work with genetic_algorithm.
+    for j in copy_guess:
+        if j in copy_code:
+            whitePegs = whitePegs + 1
+            for i,c in enumerate(copy_code):
+                if c == j:
+                    copy_code[i] = 42
 
-    s = problem.initial_state
-    states = [problem.result(s, a) for a in problem.actions(s)]
-    random.shuffle(states)
-    return genetic_algorithm(states[:n], problem.value, ngen, pmut)
+    return (blackPegs, whitePegs)
 
+def initialPopulation(population):
+    x = lambda: ''.join(random.choice("123456") for i in range(4))
+    arr = []
+    for i in range(population):
+        arr.append(x())
+    return arr
 
-def genetic_algorithm(population, fitness_fn, gene_pool=[0, 1], f_thres=None, ngen=1000, pmut=0.1):
-    """[Figure 4.8]"""
-    for i in range(ngen):
-        population = [mutate(recombine(*select(2, population, fitness_fn)), gene_pool, pmut)
-                      for i in range(len(population))]
+def fitness(c, g, w, b):
+  fitness = 0
+  for i in range(len(g)):
+    fitness += -abs(check_guess(c, g[i])[1] - w[i]) - abs(check_guess(c, g[i])[0] - b[i])
+  return fitness
 
-        fittest_individual = fitness_threshold(fitness_fn, f_thres, population)
-        if fittest_individual:
-            return fittest_individual
+def crossover(parent1, parent2):
+  Parentgenes1 = list(parent1)
+  Parentgenes2 = list(parent2)
+  childGenes1 = Parentgenes1[:2] + Parentgenes2[2:]
+  childGenes2 = Parentgenes2[:2] + Parentgenes1[2:]
+  child1 = ''.join(childGenes1)
+  child2 = ''.join(childGenes2)
+  return (child1, child2)
 
-    return max(population, key=fitness_fn)
+def mutate(gen, mutationProb):
+  if random.random() < mutationProb:
+    i = random.randrange(len(gen))
+    gen[i] = ''.join(random.choice("123456") for i in range(4))
+  return gen
 
-
-def fitness_threshold(fitness_fn, f_thres, population):
-    if not f_thres:
-        return None
-
-    fittest_individual = max(population, key=fitness_fn)
-    if fitness_fn(fittest_individual) >= f_thres:
-        return fittest_individual
-
-    return None
-
-
-def init_population(pop_number, gene_pool, state_length):
-    """Initializes population for genetic algorithm
-    pop_number  :  Number of individuals in population
-    gene_pool   :  List of possible values for individuals
-    state_length:  The length of each individual"""
-    g = len(gene_pool)
-    population = []
-    for i in range(pop_number):
-        new_individual = [gene_pool[random.randrange(0, g)] for j in range(state_length)]
-        population.append(new_individual)
-
-    return population
-
-
-def select(r, population, fitness_fn):
-    fitnesses = map(fitness_fn, population)
-    sampler = weighted_sampler(population, fitnesses)
-    return [sampler() for i in range(r)]
-
-
-def recombine(x, y):
-    n = len(x)
-    c = random.randrange(0, n)
-    return x[:c] + y[c:]
-
-
-def recombine_uniform(x, y):
-    n = len(x)
-    result = [0] * n
-    indexes = random.sample(range(n), n)
-    for i in range(n):
-        ix = indexes[i]
-        result[ix] = x[ix] if i < n / 2 else y[ix]
-
-    return ''.join(str(r) for r in result)
-
-
-def mutate(x, gene_pool, pmut):
-    if random.uniform(0, 1) >= pmut:
-        return x
-
-    n = len(x)
-    g = len(gene_pool)
-    c = random.randrange(0, n)
-    r = random.randrange(0, g)
-
-    new_gene = gene_pool[r]
-    return x[:c] + [new_gene] + x[c + 1:]
-
+# Slows down program! -.-
+def reproduce(prevGen):
+  nextGen = []
+  for _ in range(len(prevGen)):
+    parents = random.sample(prevGen, 2)
+    (child1, child2) = crossover(parents[0], parents[1])
+    nextGen.append(child1)
+    nextGen.append(child2)
+    nextGen = mutate(nextGen, 0.2)
+  return nextGen
