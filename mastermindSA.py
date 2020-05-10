@@ -1,4 +1,6 @@
-class Mastermind():
+from SAalgo import simulated_annealing
+
+class MastermindSA():
     def __init__(self):
         self.code = ''
 
@@ -24,7 +26,7 @@ class Mastermind():
         guess = ''
         while not isValidGuess:
             print('CodeBreaker, enter a 4 digit guess')
-            guess = input('> ') 
+            guess = input('> ')
             isValidGuess = self.validate(guess, 4)
         return guess
 
@@ -35,7 +37,7 @@ class Mastermind():
             print('CodeSetter, number of digits that are correct')
             correctDigits = input('> ')
             validDigitInfo = self.validate(correctDigits, 1)
-        while not validPossitionAndDigitInfo: 
+        while not validPossitionAndDigitInfo:
             print('CodeSetter, number of digits that are correct and in correct position')
             correctDigitsAndPosition = input('> ')
             validPossitionAndDigitInfo = self.validate(correctDigitsAndPosition, 1)
@@ -43,12 +45,4 @@ class Mastermind():
     def run(self):
         print('Welcome to Mastermind')
         self.askForCode()
-        for tries in range(0,10):
-            guess = self.newGuess()
-            if guess == self.code:
-                print('Congratulations Codebreaker, you guess the code!\nIt took you',  tries,'tries to figure out the code!')
-                return
-            else:
-                self.count_pegs(self.code,guess)
-                self.giveGuessInfo() 
-        print('Congratulations Codesetter, you won!')
+        simulated_annealing(self.code)
