@@ -30,17 +30,6 @@ class MastermindSA():
             isValidGuess = self.validate(guess, 4)
         return guess
 
-    def giveGuessInfo(self):
-        validDigitInfo = False
-        validPossitionAndDigitInfo = False
-        while not validDigitInfo:
-            print('CodeSetter, number of digits that are correct')
-            correctDigits = input('> ')
-            validDigitInfo = self.validate(correctDigits, 1)
-        while not validPossitionAndDigitInfo:
-            print('CodeSetter, number of digits that are correct and in correct position')
-            correctDigitsAndPosition = input('> ')
-            validPossitionAndDigitInfo = self.validate(correctDigitsAndPosition, 1)
 
     def run(self):
         print('Welcome to Mastermind')
