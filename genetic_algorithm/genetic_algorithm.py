@@ -49,13 +49,12 @@ def mutate(gen, mutationProb):
     gen[i] = ''.join(random.choice("123456") for i in range(4))
   return gen
 
-# Slows down program! -.-
 def reproduce(prevGen):
   nextGen = []
-  for _ in range(len(prevGen)):
+  for _ in range(int(len(prevGen)/2)):
     parents = random.sample(prevGen, 2)
     (child1, child2) = crossover(parents[0], parents[1])
     nextGen.append(child1)
     nextGen.append(child2)
-    nextGen = mutate(nextGen, 0.2)
+    nextGen = mutate(nextGen, 0.3)
   return nextGen

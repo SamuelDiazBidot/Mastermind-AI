@@ -1,4 +1,4 @@
-from genetic_algorithm.genetic_algorithm import initialPopulation, reproduce, fitness
+from genetic_algorithm.genetic_algorithm import initialPopulation, reproduce, fitness, check_guess
 
 class MastermindGA():
     def __init__(self):
@@ -35,26 +35,28 @@ class MastermindGA():
         return (int(correctDigitsAndPosition), int(correctDigits))
 
     def run(self):
-        population = initialPopulation(100)
-        guess = '1122'
+        population = initialPopulation(300)
+        guess = '1234'
         guesses = []
         blackPegs = []
         whitePegs = []
+
         print('Welcome to Mastermind')
         self.askForCode()
+        print(guess)
         for tries in range(10):
             if guess == self.code:
-                print('Congratulations Codebreaker, you guess the code!\nIt took you',  tries,'tries to figure out the code!')
+                print('The genetic algorithm codebreaker took', tries + 1, 'tries to guess the code')
                 return
             else:
-                print(guess)
-                (b1, w1) = self.giveGuessInfo() 
+                (b1,w1) = check_guess(guess, self.code)
                 guesses.append(guess)
-                blackPegs.append(b1)
+                blackPegs.append(b1) 
                 whitePegs.append(w1)
 
-                population = reproduce(population)
-
+                for _ in range(10):
+                    population = reproduce(population)
+  
                 fitness_list = []
                 for individual in population:
                     fitness_list.append(fitness(individual, guesses, whitePegs, blackPegs))
@@ -62,5 +64,7 @@ class MastermindGA():
                 fittedPopulation = list(tuple(zip(population, fitness_list)))
                 fittedPopulation = sorted(fittedPopulation, key= lambda tup: tup[1])
                 guess = fittedPopulation.pop()[0]
-
-        print('Congratulations Codesetter, you won!')
+                while guess in guesses:
+                    guess = fittedPopulation.pop()[0]
+                print(guess)
+        print('The genetic algorithm could not guess the correct code in less than 10 turns')
