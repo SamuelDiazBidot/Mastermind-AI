@@ -49,5 +49,6 @@ class Mastermind():
                 print('Congratulations Codebreaker, you guess the code!\nIt took you',  tries,'tries to figure out the code!')
                 return
             else:
+                self.count_pegs(self.code,guess)
                 self.giveGuessInfo() 
         print('Congratulations Codesetter, you won!')
