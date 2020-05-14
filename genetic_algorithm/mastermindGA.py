@@ -1,18 +1,14 @@
 from genetic_algorithm.genetic_algorithm import initialPopulation, reproduce, fitness, check_guess
+import re
+from utils import validate
+
 
 class MastermindGA():
     def __init__(self):
         self.code = ''
 
     def validate(self, code, length):
-        if not code.isdigit():
-            print('Code cannot contain other characters other than digits')
-            return False
-        elif len(code) > length or len(code) < length:
-            print('Invalid code length')
-            return False
-        else:
-            return True
+        return validate(code, length)
 
     def askForCode(self):
         isValidCode = False
@@ -41,15 +37,17 @@ class MastermindGA():
         blackPegs = []
         whitePegs = []
 
-        print('Welcome to Mastermind')
+        print('Welcome to Mastermind with Genetic Algorithm Search')
         self.askForCode()
-        print(guess)
+        
         for tries in range(10):
             if guess == self.code:
                 print('The genetic algorithm codebreaker took', tries + 1, 'tries to guess the code')
                 return
             else:
                 (b1,w1) = check_guess(guess, self.code)
+                print('Guess is : ', guess)
+                print('Black pegs: ', b1, 'White pegs: ', w1, '\n')
                 guesses.append(guess)
                 blackPegs.append(b1) 
                 whitePegs.append(w1)
@@ -66,5 +64,5 @@ class MastermindGA():
                 guess = fittedPopulation.pop()[0]
                 while guess in guesses:
                     guess = fittedPopulation.pop()[0]
-                print(guess)
+                
         print('The genetic algorithm could not guess the correct code in less than 10 turns')

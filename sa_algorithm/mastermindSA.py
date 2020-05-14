@@ -1,18 +1,12 @@
-from SAalgo import simulated_annealing
+from .SAalgo import simulated_annealing
+from utils import validate
 
 class MastermindSA():
     def __init__(self):
         self.code = ''
 
     def validate(self, code, length):
-        if not code.isdigit():
-            print('Code cannot contain other characters other than digits')
-            return False
-        elif len(code) > length or len(code) < length:
-            print('Invalid code length')
-            return False
-        else:
-            return True
+        return validate(code, length)
 
     def askForCode(self):
         isValidCode = False
@@ -32,6 +26,6 @@ class MastermindSA():
 
 
     def run(self):
-        print('Welcome to Mastermind')
+        print('Welcome to Mastermind with Simulated Annealing Algorithm search')
         self.askForCode()
         simulated_annealing(self.code)

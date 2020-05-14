@@ -1,16 +1,10 @@
+import utils
 class Mastermind():
     def __init__(self):
         self.code = ''
 
     def validate(self, code, length):
-        if not code.isdigit():
-            print('Code cannot contain other characters other than digits')
-            return False
-        elif len(code) > length or len(code) < length:
-            print('Invalid code length')
-            return False
-        else:
-            return True
+        return utils.validate(code, length)
 
     def askForCode(self):
         isValidCode = False
@@ -46,7 +40,7 @@ class Mastermind():
         for tries in range(0,10):
             guess = self.newGuess()
             if guess == self.code:
-                print('Congratulations Codebreaker, you guess the code!\nIt took you',  tries,'tries to figure out the code!')
+                print('Congratulations Codebreaker, you guess the code!\nIt took you',  tries + 1,'tries to figure out the code!')
                 return
             else:
                 self.count_pegs(self.code,guess)
