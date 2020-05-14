@@ -31,7 +31,7 @@ class MastermindGA():
         return (int(correctDigitsAndPosition), int(correctDigits))
 
     def run(self):
-        population = initialPopulation(300)
+        population = initialPopulation(500)
         guess = '1234'
         guesses = []
         blackPegs = []
@@ -52,7 +52,7 @@ class MastermindGA():
                 blackPegs.append(b1) 
                 whitePegs.append(w1)
 
-                for _ in range(10):
+                for _ in range(15):
                     population = reproduce(population)
   
                 fitness_list = []
