@@ -10,17 +10,17 @@ def simulated_annealing(scode):
     possibilities = [''.join(p) for p in product('123456', repeat=4)]  # Crea toda las posibilidades
     current_guess_code = random.choice(possibilities)  # Crea el primer guess
     guesses = []
+    non_cons = []
     guesses.append(current_guess_code)
     while T != 4:
-        if len(guesses) > 11:
-            break
-        possibilities = create_consistent_list(scode, possibilities, current_guess_code)  #Se crea una ista consitente
-        neighborhood = create_neigborhood(current_guess_code)  # Crea el una lista de mutaciones del guess
+        # if len(guesses) > 11:
+        #     break
+        consistent = create_consistent_list(scode, possibilities, current_guess_code)
+        possibilities = consistent[0]  #Se crea una ista consitente
+        non_cons = consistent[1] + non_cons
+        neighborhood = create_neigborhood(current_guess_code, non_cons)  # Crea el una lista de mutaciones del guess
         augmented = neighborhood + possibilities
         next_choice = random.choice(augmented)  # Escoge un codigo random de la lista
-
-        while next_choice in guesses: # Para que no repita
-            next_choice = random.choice(neighborhood)
         cost_nextg = calculating_cost(scode, possibilities, next_choice)  # Compara dos guesses
 
         if cost_nextg == 0 or len(possibilities) == 1:  # Si es 0 significa que el codigo random es mejor que el que esta guardado en current_guess_code
@@ -38,12 +38,13 @@ def simulated_annealing(scode):
 
         T = count_pegs(scode, current_guess_code)[1]
 
-    if len(guesses) <= 10:
-        print(current_guess_code)
-        print('Congratulations Codebreaker, you guess the code!\nIt took you', len(guesses), 'tries to figure out the code!')
-    else:
-        print('Congratulations Codesetter, you won!')
+    # if len(guesses) <= 10:
+    print(current_guess_code)
+    print('Congratulations Codebreaker, you guess the code!\nIt took you', len(guesses), 'tries to figure out the code!')
+    # else:
+    #     print('Congratulations Codesetter, you won!')
 
+    return len(guesses)
 
 
 # Funcion para contar los numeros de pegs blanco y negros. Mismo que el de GA
@@ -72,14 +73,17 @@ def count_pegs(scode, guess_code):
 # Funcion crea la lista consistente
 def create_consistent_list(mcode, possibilities, ngc):
     temp = []
+    notc = []
     for item in possibilities:
         if count_pegs(ngc, item) == count_pegs(mcode, ngc):
             temp.append(item)
+        else:
+            notc.append(item)
     possibilities = temp[:]
-    return possibilities
+    return possibilities, notc
 
 
-#Funcion para comparar el un codigo con todos los guess anteriores
+# Funcion para comparar el un codigo con todos los guess anteriores
 def calculating_cost(c, g, ngc):
 
     cost = 0
@@ -103,7 +107,7 @@ def calculating_cost(c, g, ngc):
     return cost
 
 
-#Funcion para remplazar una posicion random con un numero random
+# Funcion para remplazar una posicion random con un numero random
 def mutate(gen, i, j):
     choice = j
     gen = gen[:i] + choice + gen[i + 1:]
@@ -111,12 +115,12 @@ def mutate(gen, i, j):
 
 
 # Crea una lista para las mutaciones de un codigo
-def create_neigborhood(guess):
+def create_neigborhood(guess, no_cons):
     neighborhood = []
     choice = "123456"
     for i in choice:
         for j in range(4):
             mutation = mutate(guess, j, i)
-            if mutation not in neighborhood and guess != mutation:
+            if mutation not in neighborhood and guess != mutation and mutation not in no_cons:
                 neighborhood.append(mutation)
     return neighborhood
