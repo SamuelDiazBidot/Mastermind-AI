@@ -73,7 +73,7 @@ class MastermindGA():
                     guess = fittedPopulation.pop()[0]
                 
         print('The genetic algorithm could not guess the correct code in less than 10 turns')
-        return 10
+        return 11
 
 
     # Funcion que se utiliza para obetener resultados, esta corre automaticamente
@@ -117,4 +117,4 @@ class MastermindGA():
                     guess = fittedPopulation.pop()[0]
                 
         print('The genetic algorithm could not guess the correct code in less than 10 turns')
-        return 10
+        return 11
