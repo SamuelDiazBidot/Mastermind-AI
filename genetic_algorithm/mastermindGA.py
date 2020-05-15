@@ -3,13 +3,17 @@ import re
 from utils import validate
 
 
+
+# Clase que maneja el juego de mastermind utilizando el algoritmo genetico
 class MastermindGA():
     def __init__(self):
         self.code = ''
-
+    
+    # Valida el input 
     def validate(self, code, length):
         return validate(code, length)
 
+    # Pregunta cual sera el codigo a descifrar
     def askForCode(self):
         isValidCode = False
         while not isValidCode:
@@ -17,6 +21,7 @@ class MastermindGA():
             self.code = input('> ')
             isValidCode = self.validate(self.code, 4)
 
+    # Funcion que devuelve el feedback al comparar un codigo con otro 
     def giveGuessInfo(self):
         validDigitInfo = False
         validPossitionAndDigitInfo = False
@@ -30,6 +35,7 @@ class MastermindGA():
             validPossitionAndDigitInfo = self.validate(correctDigitsAndPosition, 1)
         return (int(correctDigitsAndPosition), int(correctDigits))
 
+    # Funcion que principal de la clase que se utliza para correr el juego y poder darle un valor al codigo secreto
     def run(self):
         population = initialPopulation(500)
         guess = '1234'
@@ -70,7 +76,7 @@ class MastermindGA():
         return 10
 
 
-
+    # Funcion que se utiliza para obetener resultados, esta corre automaticamente
     def run_auto(self, code_to_break):
         population = initialPopulation(500)
         guess = '1234'

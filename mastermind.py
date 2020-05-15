@@ -1,11 +1,14 @@
 import utils
+# Clase que contiene la logica del juego Mastermind original sin ningun algoritmo presente
 class Mastermind():
     def __init__(self):
         self.code = ''
 
+# Valida la entrada de datos parael juego
     def validate(self, code, length):
         return utils.validate(code, length)
 
+# Pregunta por el codigo secreto al usuario
     def askForCode(self):
         isValidCode = False
         while not isValidCode:
@@ -13,6 +16,7 @@ class Mastermind():
             self.code = input('> ')
             isValidCode = self.validate(self.code, 4)
 
+# Funcion que se utiliza para obtener un nuevo numero del 'codebreaker'
     def newGuess(self):
         isValidGuess = False
         guess = ''
@@ -22,6 +26,7 @@ class Mastermind():
             isValidGuess = self.validate(guess, 4)
         return guess
 
+# Compara y devuelve el feedback necesario dado dos codigos secretos
     def giveGuessInfo(self):
         validDigitInfo = False
         validPossitionAndDigitInfo = False
@@ -34,6 +39,7 @@ class Mastermind():
             correctDigitsAndPosition = input('> ')
             validPossitionAndDigitInfo = self.validate(correctDigitsAndPosition, 1)
 
+# Funcion principal que se ecarga de la logica del juego
     def run(self):
         print('Welcome to Mastermind')
         self.askForCode()

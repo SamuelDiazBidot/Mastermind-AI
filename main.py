@@ -3,19 +3,20 @@ import time
 import random
 
 from utils import create_mm_codes, validate_input
-# from mastermind import Mastermind as defaultMastermind
 from genetic_algorithm.mastermindGA import MastermindGA
 from sa_algorithm.mastermindSA import MastermindSA
 
-
+# Corre mastermind con el algoritmo de simulated annealing
 def run_SA_mastermind():
     game = MastermindSA()
     game.run()
 
+# Corre mastermind con el algoritmo "Genetic"
 def run_GA_mastermind():
     game = MastermindGA()
     game.run()
 
+# Decide que parte del programa se va a correr
 def ask_for_alg():
     while True:
         user_input = input('What is the desired algorithm?\nGenetic Algoriothm --> GA\nSimulated Annealing --> SA\nAutomatic comparison of analysis --> analysis\n').lower()
@@ -32,13 +33,14 @@ def ask_for_alg():
             print('Incorrect input, try again.')
             time.sleep(2)
 
-# Compares lists of all res
+# Compares lists of all results, helper to prepare the results to be displayed
 def compare_algos(algos_res):
     avrg_res = []
-    for res_ls in algos_res:
-        avrg_res.append(sum(res_ls) / len(res_ls))
-    return avrg_res
+    first_avrg = sum(algos_res[0]) / float(len(algos_res[0]))
+    second_avrg = sum(algos_res[1]) / float(len(algos_res[1]))
+    return first_avrg, second_avrg
         
+# Displays the results after running the program with the different algorithms        
 def display_results(num_of_runs, comb_algo_res_ls, avrg_ls):
     print(f'\n{"-----Mastermid Algorithms Comparison-----":^60}')
     print(f'{"Attempt:":<20}', f'{"GA Algorithm:":<20}', f'{"SA Algorithm:":<20}')
@@ -63,10 +65,12 @@ def run_auto_algorithms():
     
     combined_res_ls = list(zip(sa_results, ga_results))
     
-    avrg_ls = compare_algos(combined_res_ls)
-
+    avrg_ls = compare_algos([sa_results, ga_results])
+    print(f'Alg -----> {avrg_ls}')
     display_results(number_runs, combined_res_ls, avrg_ls)
 
+
+# Main function of the program
 def run_games():
     print('Welcome to Mastermind!')
     ask_for_alg()
