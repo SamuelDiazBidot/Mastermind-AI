@@ -39,7 +39,7 @@ def simulated_annealing(scode):
         T = count_pegs(scode, current_guess_code)[1]
 
     # if len(guesses) <= 10:
-    print(current_guess_code)
+    print('Guess is : ', current_guess_code)
     print('Congratulations Codebreaker, you guess the code!\nIt took you', len(guesses), 'tries to figure out the code!')
     # else:
     #     print('Congratulations Codesetter, you won!')
@@ -57,15 +57,15 @@ def count_pegs(scode, guess_code):
     for i in range(4):
         if scode[i] == guess_code[i]:
             black_peg += 1
-            copy_code[i] = 42
-            copy_guess[i] = 4242
+            copy_code[i] = 'a'
+            copy_guess[i] = 'b'
 
     for j in copy_guess:
         if j in copy_code:
             white_peg += 1
             for i, c in enumerate(copy_code):
                 if c == j:
-                    copy_code[i] = 42
+                    copy_code[i] = 'a'
 
     return white_peg, black_peg
 

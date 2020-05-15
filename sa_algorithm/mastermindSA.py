@@ -24,6 +24,11 @@ class MastermindSA():
             isValidGuess = self.validate(guess, 4)
         return guess
 
+    def run(self):
+        print('Welcome to Mastermind with Simulated Annealing Algorithm search')
+        self.askForCode()
+        return simulated_annealing(self.code)
+
 
     def run_auto(self, code_to_break):
         print('Welcome to Mastermind with Simulated Annealing Algorithm search')

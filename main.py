@@ -3,7 +3,7 @@ import time
 import random
 
 from utils import create_mm_codes, validate_input
-from mastermind import Mastermind as defaultMastermind
+# from mastermind import Mastermind as defaultMastermind
 from genetic_algorithm.mastermindGA import MastermindGA
 from sa_algorithm.mastermindSA import MastermindSA
 
@@ -67,17 +67,9 @@ def run_auto_algorithms():
 
     display_results(number_runs, combined_res_ls, avrg_ls)
 
-
-
 def run_games():
     print('Welcome to Mastermind!')
-    user_input = input('Run Mastermind with search algorithms? (y/n)  ')
-    if user_input == 'y':
-        ask_for_alg()
-    else:
-        defaultMastermind().run()
-    
-
+    ask_for_alg()
 
 if __name__=='__main__':
     run_games()

@@ -42,6 +42,7 @@ class MastermindGA():
         
         for tries in range(10):
             if guess == self.code:
+                print('Guess is : ', guess)
                 print('The genetic algorithm codebreaker took', tries + 1, 'tries to guess the code')
                 return tries + 1
             else:

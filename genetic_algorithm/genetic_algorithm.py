@@ -9,15 +9,15 @@ def check_guess(guess, code):
     for i in range(len(code)):
         if code[i] == guess[i]:
             blackPegs = blackPegs + 1
-            copy_code[i] = 42
-            copy_guess[i] = 4242
+            copy_code[i] = 'a'
+            copy_guess[i] = 'b'
 
     for j in copy_guess:
         if j in copy_code:
             whitePegs = whitePegs + 1
             for i,c in enumerate(copy_code):
                 if c == j:
-                    copy_code[i] = 42
+                    copy_code[i] = 'a'
 
     return (blackPegs, whitePegs)
 
