@@ -19,7 +19,7 @@ def run_GA_mastermind():
 # Decide que parte del programa se va a correr
 def ask_for_alg():
     while True:
-        user_input = input('What is the desired algorithm?\nGenetic Algoriothm --> GA\nSimulated Annealing --> SA\nAutomatic comparison of analysis --> analysis\n').lower()
+        user_input = input('What is the desired algorithm?\nGenetic Algorithm --> GA\nSimulated Annealing --> SA\nAutomatic comparison analysis --> analysis\n').lower()
         if user_input == 'sa':
             run_SA_mastermind()
             break
