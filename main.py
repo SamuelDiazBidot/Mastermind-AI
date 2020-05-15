@@ -66,7 +66,7 @@ def run_auto_algorithms():
     combined_res_ls = list(zip(sa_results, ga_results))
     
     avrg_ls = compare_algos([sa_results, ga_results])
-    print(f'Alg -----> {avrg_ls}')
+    
     display_results(number_runs, combined_res_ls, avrg_ls)
 
 
