@@ -40,10 +40,10 @@ def compare_algos(algos_res):
     return avrg_res
         
 def display_results(num_of_runs, comb_algo_res_ls, avrg_ls):
-    print(f'{"-----Mastermid Algorithms Comparison-----":^60}')
-    print(f'{"Attempt":<20}', f'{"GA Algorithm":<20}', f'{"SA Algorithm:":<20}')
+    print(f'{"\n-----Mastermid Algorithms Comparison-----":^60}')
+    print(f'{"Attempt:":<20}', f'{"GA Algorithm:":<20}', f'{"SA Algorithm:":<20}')
     for idx, res_tup in enumerate(comb_algo_res_ls):
-        print(f'{"#"+str(idx):<20}', f'{res_tup[0]:<20.2f}', f'{res_tup[1]:<20.2f}')
+        print(f'{"#"+str(idx+1):>20}', f'{res_tup[0]:>20.2f}', f'{res_tup[1]:>20.2f}')
     print(f'Average tries of Genetic algorithm: {avrg_ls[0]}')
     print(f'Average tries of Simulated Annealing: {avrg_ls[1]}')
 

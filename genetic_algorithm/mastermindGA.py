@@ -66,7 +66,7 @@ class MastermindGA():
                     guess = fittedPopulation.pop()[0]
                 
         print('The genetic algorithm could not guess the correct code in less than 10 turns')
-        return -1
+        return 0
 
 
 
@@ -110,4 +110,4 @@ class MastermindGA():
                     guess = fittedPopulation.pop()[0]
                 
         print('The genetic algorithm could not guess the correct code in less than 10 turns')
-        return -1
+        return 0
