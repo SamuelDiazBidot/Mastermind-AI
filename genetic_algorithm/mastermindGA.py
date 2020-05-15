@@ -43,7 +43,7 @@ class MastermindGA():
         for tries in range(10):
             if guess == self.code:
                 print('The genetic algorithm codebreaker took', tries + 1, 'tries to guess the code')
-                return
+                return tries + 1
             else:
                 (b1,w1) = check_guess(guess, self.code)
                 print('Guess is : ', guess)
@@ -66,3 +66,48 @@ class MastermindGA():
                     guess = fittedPopulation.pop()[0]
                 
         print('The genetic algorithm could not guess the correct code in less than 10 turns')
+        return -1
+
+
+
+    def run_auto(self, code_to_break):
+        population = initialPopulation(500)
+        guess = '1234'
+        guesses = []
+        blackPegs = []
+        whitePegs = []
+
+        print('Welcome to Mastermind with Genetic Algorithm Search')
+        #################
+        # self.askForCode()
+        self.code = code_to_break
+        print('Codesetter, enter a 4 digit code.\n>', self.code)
+        #################
+        
+        for tries in range(10):
+            if guess == self.code:
+                print('The genetic algorithm codebreaker took', tries + 1, 'tries to guess the code')
+                return tries + 1
+            else:
+                (b1,w1) = check_guess(guess, self.code)
+                print('Guess is : ', guess)
+                print('Black pegs: ', b1, 'White pegs: ', w1, '\n')
+                guesses.append(guess)
+                blackPegs.append(b1) 
+                whitePegs.append(w1)
+
+                for _ in range(15):
+                    population = reproduce(population)
+
+                fitness_list = []
+                for individual in population:
+                    fitness_list.append(fitness(individual, guesses, whitePegs, blackPegs))
+
+                fittedPopulation = list(tuple(zip(population, fitness_list)))
+                fittedPopulation = sorted(fittedPopulation, key= lambda tup: tup[1])
+                guess = fittedPopulation.pop()[0]
+                while guess in guesses:
+                    guess = fittedPopulation.pop()[0]
+                
+        print('The genetic algorithm could not guess the correct code in less than 10 turns')
+        return -1

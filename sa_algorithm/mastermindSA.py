@@ -25,7 +25,9 @@ class MastermindSA():
         return guess
 
 
-    def run(self):
+    def run_auto(self, code_to_break):
         print('Welcome to Mastermind with Simulated Annealing Algorithm search')
-        self.askForCode()
-        simulated_annealing(self.code)
+        print('Codesetter, enter a 4 digit code.\n>', code_to_break)
+        self.code = code_to_break
+        # self.askForCode()
+        return simulated_annealing(self.code)
